@@ -13,4 +13,4 @@ After download, right-click on the zip file, choose properties and click on Unpr
 Plugins folder of XrmToolBox.
 
 #How does it look
-![Entity Image Updater Tool Screenshot](http://imgur.com/zMQldqr?1)
+![](https://github.com/rajyraman/Ryr.XrmToolBox.EntityImageUpdater/blob/master/EntityImageUpdater.png)
