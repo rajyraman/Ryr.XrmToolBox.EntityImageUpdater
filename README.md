@@ -12,5 +12,8 @@ Head the the Release area in Github and download the [latest release](https://gi
 After download, right-click on the zip file, choose properties and click on Unprotect. The extract the zip file into the
 Plugins folder of XrmToolBox.
 
+#Credits
+I have re-used lot of Tanguy's code from the View Layout Replicator code. I used this as the starting point, so that I can concentrate on the core functionality.
+
 #How does it look
 ![](https://github.com/rajyraman/Ryr.XrmToolBox.EntityImageUpdater/blob/master/EntityImageUpdater.png)
