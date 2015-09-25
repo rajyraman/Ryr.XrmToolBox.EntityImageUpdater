@@ -17,4 +17,4 @@ Plugins folder of XrmToolBox.
 I have re-used lot of Tanguy's code from the View Layout Replicator tool. I used this as the starting point, so that I can concentrate on the core functionality.
 
 #How does it look
-![](https://github.com/rajyraman/Ryr.XrmToolBox.EntityImageUpdater/blob/master/screenshot.png)
+![](https://github.com/rajyraman/Ryr.XrmToolBox.EntityImageUpdater/blob/master/Screenshot.png)
