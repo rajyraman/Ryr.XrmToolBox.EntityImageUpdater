@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\Plugins\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,6 +36,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cinteros.Xrm.FetchXmlBuilder, Version=1.2015.8.62, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>XrmToolBox\Cinteros.Xrm.FetchXmlBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="McTools.Xrm.Connection">
       <HintPath>XrmToolBox\McTools.Xrm.Connection.dll</HintPath>
     </Reference>
@@ -96,6 +100,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="EntityImageUpdater.resx">
       <DependentUpon>EntityImageUpdater.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -120,11 +125,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Images\tsbCloseThisTab.Image.png" />
+    <Content Include="Images\tsbEditInFxb.Image.png" />
+    <Content Include="Images\tsbLoadEntities.Image.png" />
+    <Content Include="Images\tsbSaveAttributes.Image.png" />
     <Content Include="Licence.txt" />
+    <Content Include="XrmToolBox\Cinteros.Xrm.FetchXmlBuilder.dll" />
     <Content Include="XrmToolBox\McTools.Xrm.Connection.dll" />
     <Content Include="XrmToolBox\McTools.Xrm.Connection.WinForms.dll" />
     <Content Include="XrmToolBox\XrmToolBox.Extensibility.dll" />
