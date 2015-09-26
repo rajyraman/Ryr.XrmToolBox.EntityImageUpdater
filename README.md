@@ -6,7 +6,12 @@ the future versions of the tool, I plan to upload images from disk into a contac
 field based on the primary key or a set matching criteria.
 
 #How does it update the logo?
-This tool uses the [Clearbit Logo API](https://clearbit.com/docs#logo-api) to find the logo based on the url.
+This tool uses the following APIs
+* [Clearbit Logo API](https://clearbit.com/docs#logo-api) to find the logo based on the url
+* Gravatar for email
+* Twitter for a specified handle
+
+Apart from this local file system can also be used as an image source, provided the filename matches to the selected attribute name.
 
 #Install Instructions
 Head to the the Release area in Github and download the [latest release](https://github.com/rajyraman/Ryr.XrmToolBox.EntityImageUpdater/releases/latest). 
