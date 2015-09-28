@@ -155,7 +155,7 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
                         var attributeMetadata = (IEnumerable<AttributeMetadata>)dwea.Result;
                         foreach (var attribute in attributeMetadata)
                         {
-                            if (attribute.DisplayName.LocalizedLabels.Any())
+                            if (attribute.DisplayName.LocalizedLabels.Count > 0)
                             {
                                 var item = new ListViewItem { Text = attribute.DisplayName.LocalizedLabels[0].Label, Tag = attribute.LogicalName };
                                 item.SubItems.Add(attribute.SchemaName);
@@ -187,11 +187,11 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
             Cursor = Cursors.WaitCursor;
 
             WorkAsync(string.Format("Retrieving records and {0} uploading logo...", query != null ? "selectively" : ""),
-                dwea =>
+                (bw, e) =>
                 {
                     var entityRecords = query != null ? 
-                    RetrieveAllPages(query, attributeSchemaName) : RetrieveAllPages(entityName, attributeSchemaName);
-                    dwea.Result = UpdateImages(entityRecords, attributeSchemaName);
+                    RetrieveAllPages(bw, query, attributeSchemaName) : RetrieveAllPages(bw, entityName, attributeSchemaName);
+                    e.Result = UpdateImages(bw, entityRecords, attributeSchemaName);
                 },
                 dwea =>
                 {
@@ -208,15 +208,18 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
                     {
                         MessageBox.Show(string.Format("{0} images updated", imageCache.Count),"Success",MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
                     }
-                });
+                },
+                e => SetWorkingMessage(e.UserState.ToString()));
         }
 
-        private List<Tuple<Guid, string, byte[]>> UpdateImages(List<Entity> entityRecords, string attribute)
+        private List<Tuple<Guid, string, byte[]>> UpdateImages(BackgroundWorker bw, List<Entity> entityRecords, string attribute)
         {
             imageCache.Clear();
             byte[] image = null;
+            int rowNumber = 1, totalRecords = entityRecords.Count;
 
             var imageList = new ImageList();
+            imageList.ColorDepth = ColorDepth.Depth32Bit;
             imageList.ImageSize = new Size(40, 40);
             lvResults.SmallImageList = imageList;
 
@@ -227,33 +230,38 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
             executeMultipleRequests.Settings = new ExecuteMultipleSettings { ContinueOnError = true, ReturnResponses = true };
             executeMultipleRequests.Requests = new OrganizationRequestCollection();
 
-            foreach (var entity in entityRecords)
-            {
+            Parallel.ForEach(entityRecords, (entity) => {
                 var attributeValue = entity.GetAttributeValue<string>(attribute);
-                if (string.IsNullOrEmpty(attributeValue)) continue;
-                //Check if we already have retrived the logo for this value
-                if (!imageCache.Any(x => x.Item2 == attributeValue))
+                if (!string.IsNullOrEmpty(attributeValue))
                 {
-                    var imageTask = GetLogo(attributeValue);
-                    imageTask.Wait();
-                    image = imageTask.Result;
-                    if (image != null) imageCache.Add(new Tuple<Guid, string, byte[]>(entity.Id, attributeValue, image));
-                }
-                image = imageCache.FirstOrDefault(x => x.Item2 == attributeValue)?.Item3;
-                if (image != null)
-                {
-                    entity["entityimage"] = image;
-                    executeMultipleRequests.Requests.Add(new UpdateRequest { Target = entity });
-                    requests++;
-
-                    if (requests == 100 || entityRecords.Count == requests)
+                    bw.ReportProgress(0, string.Format("{1} of {2} : Retrieving image for {0}", attributeValue, rowNumber++, totalRecords));
+                    //Check if we already have retrived the logo for this value
+                    if (!imageCache.Any(x => x.Item2 == attributeValue))
                     {
-                        ExecuteMultipleUpdates(imageCache, executeMultipleRequests);
-                        executeMultipleRequests.Requests.Clear();
-                        requests = 0;
+                        var imageTask = GetLogo(attributeValue);
+                        imageTask.Wait();
+                        image = imageTask.Result;
+                        if (image != null) imageCache.Add(new Tuple<Guid, string, byte[]>(entity.Id, attributeValue, image));
+                    }
+                    image = imageCache.FirstOrDefault(x => x.Item2 == attributeValue)?.Item3;
+                    if (image != null)
+                    {
+                        entity.Attributes.Remove(attribute);
+                        entity["entityimage"] = image;
+                        executeMultipleRequests.Requests.Add(new UpdateRequest { Target = entity });
+                        bw.ReportProgress(0, string.Format("Preparing update request for {0}", attributeValue));
+                        requests++;
+
+                        if (requests == 100 || entityRecords.Count == requests)
+                        {
+                            bw.ReportProgress(0, string.Format("Executing update requests", attributeValue));
+                            ExecuteMultipleUpdates(imageCache, executeMultipleRequests);
+                            executeMultipleRequests.Requests.Clear();
+                            requests = 0;
+                        }
                     }
                 }
-            }
+            });
 
             //Processs any leftover requests
             if (executeMultipleRequests.Requests.Any()) ExecuteMultipleUpdates(imageCache, executeMultipleRequests);
@@ -353,7 +361,7 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
                 return hash.ToString();
             }
         }
-        private List<Entity> RetrieveAllPages(QueryExpression query)
+        private List<Entity> RetrieveAllPages(BackgroundWorker bw, QueryExpression query)
         {
             EntityCollection results = null;
             List<Entity> allPagesAllRows = new List<Entity>();
@@ -369,6 +377,7 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
             }
             do
             {
+                bw.ReportProgress(0, string.Format("Page {0}: Retrieving 500 records for {1}", query.PageInfo.PageNumber, query.EntityName));
                 results = Service.RetrieveMultiple(query);
                 allPagesAllRows.AddRange(results.Entities.ToList());
                 query.PageInfo.PageNumber++;
@@ -378,19 +387,19 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
             return allPagesAllRows;
         }
 
-        private List<Entity> RetrieveAllPages(QueryExpression query, string attribute)
+        private List<Entity> RetrieveAllPages(BackgroundWorker bw, QueryExpression query, string attribute)
         {
             query.ColumnSet = new ColumnSet(attribute);
-            return RetrieveAllPages(query);
+            return RetrieveAllPages(bw, query);
         }
 
-        private List<Entity> RetrieveAllPages(string entityName, string attribute)
+        private List<Entity> RetrieveAllPages(BackgroundWorker bw, string entityName, string attribute)
         {
             var query = new QueryExpression(entityName);
             query.ColumnSet = new ColumnSet(attribute);
             //TODO: Don't assume statecode always exists. Probably use metadata to check if statecode exists
             query.Criteria.AddCondition("statecode", ConditionOperator.Equal, 0);
-            return RetrieveAllPages(query);
+            return RetrieveAllPages(bw, query);
         }
 
         private void lvAttributes_SelectedIndexChanged(object sender, EventArgs e)
@@ -445,7 +454,6 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
             {
                 case "Clearbit":
                     txtLogoFrom.Text = "clearbit.com";
-                    // Reinit other controls
                     RetrieveTextAttributeByType(entityLogicalName, SourceDataType.Url);
                     break;
                 case "Twitter":
