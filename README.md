@@ -1,12 +1,17 @@
 #What does this tool do?
 
-CRM2015 introduced the [image attribute](https://msdn.microsoft.com/en-au/library/8597998f-764f-4c73-b63d-9f5e02c78061#BKMK_EntityImages).
+CRM2013 introduced the [image attribute](https://msdn.microsoft.com/en-au/library/8597998f-764f-4c73-b63d-9f5e02c78061#BKMK_EntityImages).
 This is quite useful for account and contact entity. You can use a company logo on the account record and a person's image on the contact record. I envision the initial version of this tool to be used to store the company logo. In
 the future versions of the tool, I plan to upload images from disk into a contact or any other entity with the image
 field based on the primary key or a set matching criteria.
 
 #How does it update the logo?
-This tool uses the [Clearbit Logo API](https://clearbit.com/docs#logo-api) to find the logo based on the url.
+This tool uses the following APIs
+* [Clearbit Logo API](https://clearbit.com/docs#logo-api) to find the logo based on the url
+* Gravatar for email
+* Twitter for a specified handle
+
+Apart from this local file system can also be used as an image source, provided the filename matches to the selected attribute name.
 
 #Install Instructions
 Head to the the Release area in Github and download the [latest release](https://github.com/rajyraman/Ryr.XrmToolBox.EntityImageUpdater/releases/latest). 
