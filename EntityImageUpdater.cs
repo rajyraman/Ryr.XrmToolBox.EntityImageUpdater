@@ -155,14 +155,12 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
                         var attributeMetadata = (IEnumerable<AttributeMetadata>)dwea.Result;
                         foreach (var attribute in attributeMetadata)
                         {
-                            if (attribute.DisplayName.LocalizedLabels.Count > 0)
-                            {
-                                var item = new ListViewItem { Text = attribute.DisplayName.LocalizedLabels[0].Label, Tag = attribute.LogicalName };
-                                item.SubItems.Add(attribute.SchemaName);
-                                item.SubItems.Add(attribute.Description.LocalizedLabels[0].Label);
-                                item.SubItems.Add(entityLogicalName);
-                                ListViewDelegates.AddItem(lvAttributes, item);
-                            }
+                            if (attribute.IsLogical.GetValueOrDefault()) continue;
+                            var item = new ListViewItem { Text = attribute.DisplayName.UserLocalizedLabel?.Label, Tag = attribute.LogicalName };
+                            item.SubItems.Add(attribute.SchemaName);
+                            item.SubItems.Add(attribute.Description?.UserLocalizedLabel?.Label);
+                            item.SubItems.Add(entityLogicalName);
+                            ListViewDelegates.AddItem(lvAttributes, item);
                         }
                     }
                 });
@@ -234,7 +232,7 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
                 var attributeValue = entity.GetAttributeValue<string>(attribute);
                 if (!string.IsNullOrEmpty(attributeValue))
                 {
-                    bw.ReportProgress(0, string.Format("{1} of {2} : Retrieving image for {0}", attributeValue, rowNumber++, totalRecords));
+                    bw.ReportProgress(0, string.Format("Record {1} of {2} : Retrieving image for {0}", attributeValue, rowNumber++, totalRecords));
                     //Check if we already have retrived the logo for this value
                     if (!imageCache.Any(x => x.Item2 == attributeValue))
                     {
@@ -377,7 +375,7 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
             }
             do
             {
-                bw.ReportProgress(0, string.Format("Page {0}: Retrieving 500 records for {1}", query.PageInfo.PageNumber, query.EntityName));
+                bw.ReportProgress(0, string.Format("{1}: Retrieving Page {0}..", query.PageInfo.PageNumber, query.EntityName));
                 results = Service.RetrieveMultiple(query);
                 allPagesAllRows.AddRange(results.Entities.ToList());
                 query.PageInfo.PageNumber++;
