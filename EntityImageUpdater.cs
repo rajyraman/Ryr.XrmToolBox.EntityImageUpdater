@@ -54,38 +54,37 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
             lvResults.Items.Clear();
 
             Cursor = Cursors.WaitCursor;
-            WorkAsync("Loading entities...",
-                e =>
+            WorkAsync(new WorkAsyncInfo("Loading entities...", w =>
+            {
+                w.Result = MetadataHelper.RetrieveEntities(Service);
+            })
+            { PostWorkCallBack = c =>
+            {
+                Cursor = Cursors.Default;
+                if (c.Error != null)
                 {
-                    e.Result = MetadataHelper.RetrieveEntities(Service);
-                },
-                e =>
+                    string errorMessage = CrmExceptionHelper.GetErrorMessage(c.Error, true);
+                    CommonDelegates.DisplayMessageBox(ParentForm, errorMessage, "Error", MessageBoxButtons.OK,
+                                                      MessageBoxIcon.Error);
+                }
+                else
                 {
-                    Cursor = Cursors.Default;
-                    if (e.Error != null)
+                    entitiesCache = (List<EntityMetadata>)c.Result;
+                    lvEntities.Items.Clear();
+                    var list = new List<ListViewItem>();
+                    foreach (EntityMetadata emd in (List<EntityMetadata>)c.Result)
                     {
-                        string errorMessage = CrmExceptionHelper.GetErrorMessage(e.Error, true);
-                        CommonDelegates.DisplayMessageBox(ParentForm, errorMessage, "Error", MessageBoxButtons.OK,
-                                                          MessageBoxIcon.Error);
+                        var item = new ListViewItem { Text = emd.DisplayName.UserLocalizedLabel.Label, Tag = emd.LogicalName };
+                        item.SubItems.Add(emd.LogicalName);
+                        list.Add(item);
                     }
-                    else
-                    {
-                        entitiesCache = (List<EntityMetadata>)e.Result;
-                        lvEntities.Items.Clear();
-                        var list = new List<ListViewItem>();
-                        foreach (EntityMetadata emd in (List<EntityMetadata>)e.Result)
-                        {
-                            var item = new ListViewItem { Text = emd.DisplayName.UserLocalizedLabel.Label, Tag = emd.LogicalName };
-                            item.SubItems.Add(emd.LogicalName);
-                            list.Add(item);
-                        }
 
-                        this.listViewItemsCache = list.ToArray();
-                        lvEntities.Items.AddRange(listViewItemsCache);
+                    this.listViewItemsCache = list.ToArray();
+                    lvEntities.Items.AddRange(listViewItemsCache);
 
-                        gbEntities.Enabled = true;
-                    }
-                });
+                    gbEntities.Enabled = true;
+                }
+            }});
         }
 
         private void lvEntities_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -117,53 +116,52 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
         private void RetrieveTextAttributeByType(string entityLogicalName, SourceDataType sourceDataType)
         {
             Cursor = Cursors.WaitCursor;
-            WorkAsync(string.Format("Loading attributes valid for {0}...", sourceDataType),
-                dwea =>
+            WorkAsync(new WorkAsyncInfo("Loading attributes valid for {0}...", dwea =>
+            {
+                dwea.Result = MetadataHelper.RetrieveEntity(entityLogicalName, Service);
+                var entityMetadata = MetadataHelper.RetrieveEntity(entityLogicalName, Service);
+                switch (sourceDataType)
                 {
-                    dwea.Result = MetadataHelper.RetrieveEntity(entityLogicalName, Service);
-                    var entityMetadata = MetadataHelper.RetrieveEntity(entityLogicalName, Service);
-                    switch (sourceDataType)
-                    {
-                        case SourceDataType.Url:
-                            dwea.Result = entityMetadata.Attributes.Where(x => x.AttributeType.Value == AttributeTypeCode.String
-                            && ((StringAttributeMetadata)x).Format.Value == Microsoft.Xrm.Sdk.Metadata.StringFormat.Url);
-                            break;
-                        case SourceDataType.Email:
-                            dwea.Result = entityMetadata.Attributes.Where(x => x.AttributeType.Value == AttributeTypeCode.String
-                            && ((StringAttributeMetadata)x).Format.Value == Microsoft.Xrm.Sdk.Metadata.StringFormat.Email);
-                            break;
-                        case SourceDataType.TwitterHandle:
-                        case SourceDataType.Folder:
-                            dwea.Result = entityMetadata.Attributes.Where(x => x.AttributeType.Value == AttributeTypeCode.String
-                            && ((StringAttributeMetadata)x).Format.Value == Microsoft.Xrm.Sdk.Metadata.StringFormat.Text);
-                            break;
-                        default:
-                            break;
-                    }
-                },
-                dwea =>
+                    case SourceDataType.Url:
+                        dwea.Result = entityMetadata.Attributes.Where(x => x.AttributeType.Value == AttributeTypeCode.String
+                        && ((StringAttributeMetadata)x).Format.Value == Microsoft.Xrm.Sdk.Metadata.StringFormat.Url);
+                        break;
+                    case SourceDataType.Email:
+                        dwea.Result = entityMetadata.Attributes.Where(x => x.AttributeType.Value == AttributeTypeCode.String
+                        && ((StringAttributeMetadata)x).Format.Value == Microsoft.Xrm.Sdk.Metadata.StringFormat.Email);
+                        break;
+                    case SourceDataType.TwitterHandle:
+                    case SourceDataType.Folder:
+                        dwea.Result = entityMetadata.Attributes.Where(x => x.AttributeType.Value == AttributeTypeCode.String
+                        && ((StringAttributeMetadata)x).Format.Value == Microsoft.Xrm.Sdk.Metadata.StringFormat.Text);
+                        break;
+                    default:
+                        break;
+                }
+            })
+            { PostWorkCallBack = c =>
+            {
+                Cursor = Cursors.Default;
+                if (c.Error != null)
                 {
-                    Cursor = Cursors.Default;
-                    if (dwea.Error != null)
+                    string errorMessage = CrmExceptionHelper.GetErrorMessage(c.Error, true);
+                    CommonDelegates.DisplayMessageBox(ParentForm, errorMessage, "Error", MessageBoxButtons.OK,
+                                                      MessageBoxIcon.Error);
+                }
+                else
+                {
+                    var attributeMetadata = (IEnumerable<AttributeMetadata>)c.Result;
+                    foreach (var attribute in attributeMetadata)
                     {
-                        string errorMessage = CrmExceptionHelper.GetErrorMessage(dwea.Error, true);
-                        CommonDelegates.DisplayMessageBox(ParentForm, errorMessage, "Error", MessageBoxButtons.OK,
-                                                          MessageBoxIcon.Error);
+                        if (attribute.IsLogical.GetValueOrDefault()) continue;
+                        var item = new ListViewItem { Text = attribute.DisplayName.UserLocalizedLabel?.Label, Tag = attribute.LogicalName };
+                        item.SubItems.Add(attribute.SchemaName);
+                        item.SubItems.Add(attribute.Description?.UserLocalizedLabel?.Label);
+                        item.SubItems.Add(entityLogicalName);
+                        ListViewDelegates.AddItem(lvAttributes, item);
                     }
-                    else
-                    {
-                        var attributeMetadata = (IEnumerable<AttributeMetadata>)dwea.Result;
-                        foreach (var attribute in attributeMetadata)
-                        {
-                            if (attribute.IsLogical.GetValueOrDefault()) continue;
-                            var item = new ListViewItem { Text = attribute.DisplayName.UserLocalizedLabel?.Label, Tag = attribute.LogicalName };
-                            item.SubItems.Add(attribute.SchemaName);
-                            item.SubItems.Add(attribute.Description?.UserLocalizedLabel?.Label);
-                            item.SubItems.Add(entityLogicalName);
-                            ListViewDelegates.AddItem(lvAttributes, item);
-                        }
-                    }
-                });
+                }
+            }});
         }
 
         private void lvAttributes_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -183,31 +181,32 @@ namespace Ryr.XrmToolBox.EntityImageUpdater
             var attributeSchemaName = selectedAttribute.Tag.ToString();
             var entityName = selectedAttribute.SubItems[3].Text;
             Cursor = Cursors.WaitCursor;
-
-            WorkAsync(string.Format("Retrieving records and {0} uploading logo...", query != null ? "selectively" : ""),
-                (bw, e) =>
-                {
-                    var entityRecords = query != null ? 
-                    RetrieveAllPages(bw, query, attributeSchemaName) : RetrieveAllPages(bw, entityName, attributeSchemaName);
-                    e.Result = UpdateImages(bw, entityRecords, attributeSchemaName);
-                },
-                dwea =>
-                {
-                    Cursor = Cursors.Default;
-                    tsbUpdateImages.Enabled = false;
-                    tsbFxbEdit.Enabled = false;
-                    if (dwea.Error != null)
+            WorkAsync(new WorkAsyncInfo(string.Format("Retrieving records and {0} uploading logo...", query != null ? "selectively" : ""), 
+            (bw, e) =>
+            {
+                var entityRecords = query != null ?
+                RetrieveAllPages(bw, query, attributeSchemaName) : RetrieveAllPages(bw, entityName, attributeSchemaName);
+                e.Result = UpdateImages(bw, entityRecords, attributeSchemaName);
+            })
+            {
+                PostWorkCallBack = c =>
                     {
-                        string errorMessage = CrmExceptionHelper.GetErrorMessage(dwea.Error, true);
-                        CommonDelegates.DisplayMessageBox(ParentForm, errorMessage, "Error", MessageBoxButtons.OK,
-                                                            MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        MessageBox.Show(string.Format("{0} images updated", imageCache.Count),"Success",MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
-                    }
-                },
-                e => SetWorkingMessage(e.UserState.ToString()));
+                        Cursor = Cursors.Default;
+                        tsbUpdateImages.Enabled = false;
+                        tsbFxbEdit.Enabled = false;
+                        if (c.Error != null)
+                        {
+                            string errorMessage = CrmExceptionHelper.GetErrorMessage(c.Error, true);
+                            CommonDelegates.DisplayMessageBox(ParentForm, errorMessage, "Error", MessageBoxButtons.OK,
+                                                                MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            MessageBox.Show(string.Format("{0} images updated", imageCache.Count), "Success", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                        }
+                    },
+                ProgressChanged = c => SetWorkingMessage(c.UserState.ToString())
+            });
         }
 
         private List<Tuple<Guid, string, byte[]>> UpdateImages(BackgroundWorker bw, List<Entity> entityRecords, string attribute)
