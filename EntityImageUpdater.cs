@@ -26,13 +26,19 @@ using System.Diagnostics;
 
 namespace Ryr.XrmToolBox.EntityImageUpdater
 {
-    public partial class EntityImageUpdater : PluginControlBase, IMessageBusHost
+    public partial class EntityImageUpdater : PluginControlBase, IMessageBusHost, IGitHubPlugin, IHelpPlugin
     {
         private List<EntityMetadata> entitiesCache;
         private ListViewItem[] listViewItemsCache;
         private ConcurrentStack<Tuple<Guid, string, byte[]>> imageCache;
         private string selectedFolder;
         readonly List<string> imageTypes = new List<string> { "png", "jpg", "jpeg" };
+
+        public string RepositoryName => "Ryr.XrmToolBox.EntityImageUpdater";
+
+        public string UserName => "rajyraman";
+
+        public string HelpUrl => "https://dreamingincrm.com/2015/09/27/xrmtoolbox-tool-entity-image-updater/";
 
         public event EventHandler<MessageBusEventArgs> OnOutgoingMessage;
 
