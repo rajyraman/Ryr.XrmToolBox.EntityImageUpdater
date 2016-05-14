@@ -31,9 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityImageUpdater));
             this.tsMain = new System.Windows.Forms.ToolStrip();
             this.tsbClose = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbLoadEntities = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbUpdateImages = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbFxbEdit = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.gbEntities = new System.Windows.Forms.GroupBox();
             this.searchPanel = new System.Windows.Forms.Panel();
             this.lbSearch = new System.Windows.Forms.Label();
@@ -49,6 +53,8 @@
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.scApiAndAttributes = new System.Windows.Forms.SplitContainer();
             this.gbLogoSource = new System.Windows.Forms.GroupBox();
+            this.txtLogoFrom = new System.Windows.Forms.TextBox();
+            this.lbLabelSource = new System.Windows.Forms.Label();
             this.rbFileSystem = new System.Windows.Forms.RadioButton();
             this.rbTwitter = new System.Windows.Forms.RadioButton();
             this.rbGravatar = new System.Windows.Forms.RadioButton();
@@ -58,12 +64,6 @@
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.scSourceAndResults = new System.Windows.Forms.SplitContainer();
-            this.lbLabelSource = new System.Windows.Forms.Label();
-            this.txtLogoFrom = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsMain.SuspendLayout();
             this.gbEntities.SuspendLayout();
             this.searchPanel.SuspendLayout();
@@ -94,8 +94,7 @@
             this.toolStripSeparator1});
             this.tsMain.Location = new System.Drawing.Point(0, 0);
             this.tsMain.Name = "tsMain";
-            this.tsMain.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.tsMain.Size = new System.Drawing.Size(1830, 37);
+            this.tsMain.Size = new System.Drawing.Size(998, 25);
             this.tsMain.TabIndex = 0;
             this.tsMain.Text = "toolStrip1";
             // 
@@ -105,8 +104,13 @@
             this.tsbClose.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbClose.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbClose.Name = "tsbClose";
-            this.tsbClose.Size = new System.Drawing.Size(23, 34);
+            this.tsbClose.Size = new System.Drawing.Size(23, 22);
             this.tsbClose.Click += new System.EventHandler(this.tsbClose_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // tsbLoadEntities
             // 
@@ -114,9 +118,14 @@
             this.tsbLoadEntities.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbLoadEntities.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbLoadEntities.Name = "tsbLoadEntities";
-            this.tsbLoadEntities.Size = new System.Drawing.Size(151, 34);
+            this.tsbLoadEntities.Size = new System.Drawing.Size(94, 22);
             this.tsbLoadEntities.Text = "Load Entities";
             this.tsbLoadEntities.Click += new System.EventHandler(this.tsbLoadEntities_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // tsbUpdateImages
             // 
@@ -125,9 +134,14 @@
             this.tsbUpdateImages.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbUpdateImages.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbUpdateImages.Name = "tsbUpdateImages";
-            this.tsbUpdateImages.Size = new System.Drawing.Size(130, 34);
+            this.tsbUpdateImages.Size = new System.Drawing.Size(82, 22);
             this.tsbUpdateImages.Text = "Update All";
             this.tsbUpdateImages.Click += new System.EventHandler(this.tsbUpdateImages_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // tsbFxbEdit
             // 
@@ -136,9 +150,14 @@
             this.tsbFxbEdit.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.tsbFxbEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbFxbEdit.Name = "tsbFxbEdit";
-            this.tsbFxbEdit.Size = new System.Drawing.Size(187, 34);
+            this.tsbFxbEdit.Size = new System.Drawing.Size(114, 22);
             this.tsbFxbEdit.Text = "Selective Update";
             this.tsbFxbEdit.Click += new System.EventHandler(this.tsbFxbEdit_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // gbEntities
             // 
@@ -146,11 +165,10 @@
             this.gbEntities.Controls.Add(this.lvEntities);
             this.gbEntities.Dock = System.Windows.Forms.DockStyle.Left;
             this.gbEntities.Enabled = false;
-            this.gbEntities.Location = new System.Drawing.Point(0, 37);
-            this.gbEntities.Margin = new System.Windows.Forms.Padding(6);
+            this.gbEntities.Location = new System.Drawing.Point(0, 25);
             this.gbEntities.Name = "gbEntities";
-            this.gbEntities.Padding = new System.Windows.Forms.Padding(10);
-            this.gbEntities.Size = new System.Drawing.Size(561, 1071);
+            this.gbEntities.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.gbEntities.Size = new System.Drawing.Size(306, 575);
             this.gbEntities.TabIndex = 1;
             this.gbEntities.TabStop = false;
             this.gbEntities.Text = "Entities";
@@ -160,29 +178,26 @@
             this.searchPanel.Controls.Add(this.lbSearch);
             this.searchPanel.Controls.Add(this.txtSearchEntity);
             this.searchPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.searchPanel.Location = new System.Drawing.Point(10, 32);
-            this.searchPanel.Margin = new System.Windows.Forms.Padding(6);
+            this.searchPanel.Location = new System.Drawing.Point(5, 18);
             this.searchPanel.Name = "searchPanel";
-            this.searchPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.searchPanel.Size = new System.Drawing.Size(541, 94);
+            this.searchPanel.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.searchPanel.Size = new System.Drawing.Size(296, 51);
             this.searchPanel.TabIndex = 3;
             // 
             // lbSearch
             // 
             this.lbSearch.AutoSize = true;
-            this.lbSearch.Location = new System.Drawing.Point(16, 38);
-            this.lbSearch.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lbSearch.Location = new System.Drawing.Point(9, 21);
             this.lbSearch.Name = "lbSearch";
-            this.lbSearch.Size = new System.Drawing.Size(75, 25);
+            this.lbSearch.Size = new System.Drawing.Size(41, 13);
             this.lbSearch.TabIndex = 2;
             this.lbSearch.Text = "Search";
             // 
             // txtSearchEntity
             // 
-            this.txtSearchEntity.Location = new System.Drawing.Point(96, 34);
-            this.txtSearchEntity.Margin = new System.Windows.Forms.Padding(6);
+            this.txtSearchEntity.Location = new System.Drawing.Point(52, 18);
             this.txtSearchEntity.Name = "txtSearchEntity";
-            this.txtSearchEntity.Size = new System.Drawing.Size(429, 29);
+            this.txtSearchEntity.Size = new System.Drawing.Size(236, 20);
             this.txtSearchEntity.TabIndex = 1;
             this.txtSearchEntity.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnSearchKeyUp);
             // 
@@ -196,11 +211,10 @@
             this.columnHeader2});
             this.lvEntities.FullRowSelect = true;
             this.lvEntities.HideSelection = false;
-            this.lvEntities.Location = new System.Drawing.Point(10, 139);
-            this.lvEntities.Margin = new System.Windows.Forms.Padding(6);
+            this.lvEntities.Location = new System.Drawing.Point(5, 75);
             this.lvEntities.MultiSelect = false;
             this.lvEntities.Name = "lvEntities";
-            this.lvEntities.Size = new System.Drawing.Size(539, 920);
+            this.lvEntities.Size = new System.Drawing.Size(296, 495);
             this.lvEntities.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvEntities.TabIndex = 0;
             this.lvEntities.UseCompatibleStateImageBehavior = false;
@@ -224,10 +238,8 @@
             this.gbSourceAndAttributes.Controls.Add(this.scApiAndAttributes);
             this.gbSourceAndAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSourceAndAttributes.Location = new System.Drawing.Point(0, 0);
-            this.gbSourceAndAttributes.Margin = new System.Windows.Forms.Padding(6);
             this.gbSourceAndAttributes.Name = "gbSourceAndAttributes";
-            this.gbSourceAndAttributes.Padding = new System.Windows.Forms.Padding(6);
-            this.gbSourceAndAttributes.Size = new System.Drawing.Size(1269, 350);
+            this.gbSourceAndAttributes.Size = new System.Drawing.Size(692, 187);
             this.gbSourceAndAttributes.TabIndex = 2;
             this.gbSourceAndAttributes.TabStop = false;
             // 
@@ -238,10 +250,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbAttributes.Controls.Add(this.lvAttributes);
             this.gbAttributes.Enabled = false;
-            this.gbAttributes.Location = new System.Drawing.Point(422, 43);
+            this.gbAttributes.Location = new System.Drawing.Point(230, 23);
+            this.gbAttributes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.gbAttributes.Name = "gbAttributes";
-            this.gbAttributes.Padding = new System.Windows.Forms.Padding(10);
-            this.gbAttributes.Size = new System.Drawing.Size(837, 298);
+            this.gbAttributes.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.gbAttributes.Size = new System.Drawing.Size(457, 158);
             this.gbAttributes.TabIndex = 1;
             this.gbAttributes.TabStop = false;
             this.gbAttributes.Text = "Attribute to match";
@@ -255,11 +268,10 @@
             this.lvAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvAttributes.FullRowSelect = true;
             this.lvAttributes.HideSelection = false;
-            this.lvAttributes.Location = new System.Drawing.Point(10, 32);
-            this.lvAttributes.Margin = new System.Windows.Forms.Padding(6);
+            this.lvAttributes.Location = new System.Drawing.Point(5, 18);
             this.lvAttributes.MultiSelect = false;
             this.lvAttributes.Name = "lvAttributes";
-            this.lvAttributes.Size = new System.Drawing.Size(817, 256);
+            this.lvAttributes.Size = new System.Drawing.Size(447, 135);
             this.lvAttributes.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvAttributes.TabIndex = 0;
             this.lvAttributes.UseCompatibleStateImageBehavior = false;
@@ -285,14 +297,16 @@
             // scApiAndAttributes
             // 
             this.scApiAndAttributes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scApiAndAttributes.Location = new System.Drawing.Point(6, 28);
+            this.scApiAndAttributes.Location = new System.Drawing.Point(3, 16);
+            this.scApiAndAttributes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.scApiAndAttributes.Name = "scApiAndAttributes";
             // 
             // scApiAndAttributes.Panel1
             // 
             this.scApiAndAttributes.Panel1.Controls.Add(this.gbLogoSource);
-            this.scApiAndAttributes.Size = new System.Drawing.Size(1257, 316);
-            this.scApiAndAttributes.SplitterDistance = 400;
+            this.scApiAndAttributes.Size = new System.Drawing.Size(686, 168);
+            this.scApiAndAttributes.SplitterDistance = 218;
+            this.scApiAndAttributes.SplitterWidth = 2;
             this.scApiAndAttributes.TabIndex = 1;
             // 
             // gbLogoSource
@@ -306,18 +320,40 @@
             this.gbLogoSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbLogoSource.Enabled = false;
             this.gbLogoSource.Location = new System.Drawing.Point(0, 0);
+            this.gbLogoSource.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.gbLogoSource.Name = "gbLogoSource";
-            this.gbLogoSource.Size = new System.Drawing.Size(400, 316);
+            this.gbLogoSource.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbLogoSource.Size = new System.Drawing.Size(218, 168);
             this.gbLogoSource.TabIndex = 1;
             this.gbLogoSource.TabStop = false;
             this.gbLogoSource.Text = "Logo For";
             // 
+            // txtLogoFrom
+            // 
+            this.txtLogoFrom.Location = new System.Drawing.Point(10, 119);
+            this.txtLogoFrom.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtLogoFrom.Name = "txtLogoFrom";
+            this.txtLogoFrom.ReadOnly = true;
+            this.txtLogoFrom.Size = new System.Drawing.Size(207, 20);
+            this.txtLogoFrom.TabIndex = 5;
+            // 
+            // lbLabelSource
+            // 
+            this.lbLabelSource.AutoSize = true;
+            this.lbLabelSource.Location = new System.Drawing.Point(10, 90);
+            this.lbLabelSource.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbLabelSource.Name = "lbLabelSource";
+            this.lbLabelSource.Size = new System.Drawing.Size(98, 13);
+            this.lbLabelSource.TabIndex = 4;
+            this.lbLabelSource.Text = "Logo retrieved from";
+            // 
             // rbFileSystem
             // 
             this.rbFileSystem.AutoSize = true;
-            this.rbFileSystem.Location = new System.Drawing.Point(18, 111);
+            this.rbFileSystem.Location = new System.Drawing.Point(10, 60);
+            this.rbFileSystem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rbFileSystem.Name = "rbFileSystem";
-            this.rbFileSystem.Size = new System.Drawing.Size(144, 29);
+            this.rbFileSystem.Size = new System.Drawing.Size(83, 17);
             this.rbFileSystem.TabIndex = 3;
             this.rbFileSystem.TabStop = true;
             this.rbFileSystem.Tag = "Folder";
@@ -328,9 +364,10 @@
             // rbTwitter
             // 
             this.rbTwitter.AutoSize = true;
-            this.rbTwitter.Location = new System.Drawing.Point(265, 52);
+            this.rbTwitter.Location = new System.Drawing.Point(145, 28);
+            this.rbTwitter.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rbTwitter.Name = "rbTwitter";
-            this.rbTwitter.Size = new System.Drawing.Size(95, 29);
+            this.rbTwitter.Size = new System.Drawing.Size(57, 17);
             this.rbTwitter.TabIndex = 2;
             this.rbTwitter.TabStop = true;
             this.rbTwitter.Tag = "Twitter";
@@ -342,9 +379,10 @@
             // 
             this.rbGravatar.AutoSize = true;
             this.rbGravatar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.rbGravatar.Location = new System.Drawing.Point(140, 52);
+            this.rbGravatar.Location = new System.Drawing.Point(76, 28);
+            this.rbGravatar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rbGravatar.Name = "rbGravatar";
-            this.rbGravatar.Size = new System.Drawing.Size(85, 29);
+            this.rbGravatar.Size = new System.Drawing.Size(50, 17);
             this.rbGravatar.TabIndex = 1;
             this.rbGravatar.TabStop = true;
             this.rbGravatar.Tag = "Gravatar";
@@ -357,9 +395,10 @@
             // 
             this.rbClearbit.AutoSize = true;
             this.rbClearbit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.rbClearbit.Location = new System.Drawing.Point(18, 52);
+            this.rbClearbit.Location = new System.Drawing.Point(10, 28);
+            this.rbClearbit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.rbClearbit.Name = "rbClearbit";
-            this.rbClearbit.Size = new System.Drawing.Size(75, 29);
+            this.rbClearbit.Size = new System.Drawing.Size(47, 17);
             this.rbClearbit.TabIndex = 0;
             this.rbClearbit.TabStop = true;
             this.rbClearbit.Tag = "Clearbit";
@@ -372,31 +411,31 @@
             // 
             this.gbResults.Controls.Add(this.lvResults);
             this.gbResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbResults.Enabled = false;
             this.gbResults.Location = new System.Drawing.Point(0, 0);
-            this.gbResults.Margin = new System.Windows.Forms.Padding(6);
             this.gbResults.Name = "gbResults";
-            this.gbResults.Padding = new System.Windows.Forms.Padding(10);
-            this.gbResults.Size = new System.Drawing.Size(1269, 717);
+            this.gbResults.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.gbResults.Size = new System.Drawing.Size(692, 386);
             this.gbResults.TabIndex = 3;
             this.gbResults.TabStop = false;
             this.gbResults.Text = "Results";
             // 
             // lvResults
             // 
+            this.lvResults.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.lvResults.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader7,
             this.columnHeader8});
             this.lvResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvResults.Enabled = false;
-            this.lvResults.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvResults.Location = new System.Drawing.Point(10, 32);
-            this.lvResults.Margin = new System.Windows.Forms.Padding(6);
+            this.lvResults.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvResults.HideSelection = false;
+            this.lvResults.Location = new System.Drawing.Point(5, 18);
+            this.lvResults.MultiSelect = false;
             this.lvResults.Name = "lvResults";
-            this.lvResults.Size = new System.Drawing.Size(1249, 675);
+            this.lvResults.Size = new System.Drawing.Size(682, 363);
             this.lvResults.TabIndex = 0;
             this.lvResults.UseCompatibleStateImageBehavior = false;
             this.lvResults.View = System.Windows.Forms.View.SmallIcon;
+            this.lvResults.SelectedIndexChanged += new System.EventHandler(this.lvResults_SelectedIndexChanged);
             // 
             // columnHeader7
             // 
@@ -412,7 +451,8 @@
             // 
             this.scSourceAndResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.scSourceAndResults.IsSplitterFixed = true;
-            this.scSourceAndResults.Location = new System.Drawing.Point(561, 37);
+            this.scSourceAndResults.Location = new System.Drawing.Point(306, 25);
+            this.scSourceAndResults.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.scSourceAndResults.Name = "scSourceAndResults";
             this.scSourceAndResults.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -423,57 +463,20 @@
             // scSourceAndResults.Panel2
             // 
             this.scSourceAndResults.Panel2.Controls.Add(this.gbResults);
-            this.scSourceAndResults.Size = new System.Drawing.Size(1269, 1071);
-            this.scSourceAndResults.SplitterDistance = 350;
+            this.scSourceAndResults.Size = new System.Drawing.Size(692, 575);
+            this.scSourceAndResults.SplitterDistance = 187;
+            this.scSourceAndResults.SplitterWidth = 2;
             this.scSourceAndResults.TabIndex = 4;
-            // 
-            // lbLabelSource
-            // 
-            this.lbLabelSource.AutoSize = true;
-            this.lbLabelSource.Location = new System.Drawing.Point(18, 167);
-            this.lbLabelSource.Name = "lbLabelSource";
-            this.lbLabelSource.Size = new System.Drawing.Size(179, 25);
-            this.lbLabelSource.TabIndex = 4;
-            this.lbLabelSource.Text = "Logo retrieved from";
-            // 
-            // txtLogoFrom
-            // 
-            this.txtLogoFrom.Location = new System.Drawing.Point(18, 219);
-            this.txtLogoFrom.Name = "txtLogoFrom";
-            this.txtLogoFrom.ReadOnly = true;
-            this.txtLogoFrom.Size = new System.Drawing.Size(376, 29);
-            this.txtLogoFrom.TabIndex = 5;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 37);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 37);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 37);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 37);
             // 
             // EntityImageUpdater
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.scSourceAndResults);
             this.Controls.Add(this.gbEntities);
             this.Controls.Add(this.tsMain);
-            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "EntityImageUpdater";
-            this.Size = new System.Drawing.Size(1830, 1108);
+            this.Size = new System.Drawing.Size(998, 600);
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
             this.gbEntities.ResumeLayout(false);
